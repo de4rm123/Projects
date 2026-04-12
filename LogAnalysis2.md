@@ -14,7 +14,8 @@ IOC:
 Attacker IP:
 
         - cat access.log | grep -i python-requests/2.24.0
-                <img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/5dfcd975-3a6f-4449-b1eb-0709a20352f5" />
+        
+<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/5dfcd975-3a6f-4449-b1eb-0709a20352f5" />
 
 
 Q) Identify the URI of the admin login panel that the attacker gained access to (include the token)
