@@ -57,6 +57,8 @@ Q) Finding the hex offset of an MFT record is beneficial in many investigative s
 
 Find the Entry Number value for the file. Multiply that number by 1024 and convert it to hex.
 
+23436 * 1024 --------> result to hex
+
 <img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/94618986-1b87-43a7-935e-cf2e639b7265" />
 
 
