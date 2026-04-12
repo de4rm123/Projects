@@ -49,7 +49,7 @@ To identify the session number assigned during the attacker’s login, I filtere
 **cat auth.log | grep -i '06:32:4'**
 
 
-<img width="1920" height="1080" alt="LogonSessionIDBrutus" src="https://github.com/user-attachments/assets/033bc5f7-8dd2-4433-8906-b6d0a3091efc" />
+<img width="1920" height="1080" alt="LogonSessionIDBrutus" src="https://github.com/user-attachments/assets/3436ad6e-dc1e-49d0-83af-e4849bcdd861" />
 
 
 
