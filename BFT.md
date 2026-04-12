@@ -1,10 +1,9 @@
-[BFT.md](https://github.com/user-attachments/files/26655516/BFT.md)
 Scenario:
 
 In this challenge, a victim’s device has been compromised with malware, and we need to investigate what happened. The twist? We’re only given access to the Master File Table from the device. Fortunately, this is a robust forensic artifact that contains an entry for every file on the system — including size, timestamps, permissions, and more!
 
 Artefacts:
-	- $MFT
+	- $MFT file
 
 
 Q) Simon Stark was targeted by attackers on February 13. He downloaded a ZIP file from a link received in an email. What was the name of the ZIP file he downloaded from the link?
