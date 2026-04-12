@@ -36,7 +36,7 @@ The attacker first brute-forced the credentials, but their actual manual login s
 
 
 
-<img width="1920" height="1080" alt="FirstTimeLoggedBrutus" src="https://github.com/user-attachments/assets/fcb8a7d0-1d46-4d47-86e1-8c87fdab6025" />
+<img width="1920" height="1080" alt="FirstTimeManuallyLogon" src="https://github.com/user-attachments/assets/19a3f010-8bf9-42a8-847d-837329237628" />
 
 
 
