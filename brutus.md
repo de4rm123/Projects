@@ -4,8 +4,8 @@ In this investigation, I analysed Unix authentication logs (auth.log) and wtmp r
 
 Artifacts Provided
 
-    auth.log
-    wtmp
+    - auth.log
+    - wtmp
 
 
 Q) Analyze the auth.log. What is the IP address used by the attacker to carry out a brute force attack?
