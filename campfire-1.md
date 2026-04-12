@@ -3,7 +3,7 @@ Scenario:
 Alonzo Spotted Weird files on his computer and informed the newly assembled SOC Team. Assessing the situation it is believed a Kerberoasting attack may have occurred in the network. It is your job to confirm the findings by analyzing the provided evidence. 
 
 Artifacts:
-  - Security Logs from the Domain Controller 
+  	- Security Logs from the Domain Controller 
 	- PowerShell-Operational Logs from the affected workstation 
 	- Prefetch Files from the affected workstation
 
