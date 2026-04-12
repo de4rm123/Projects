@@ -12,7 +12,7 @@ Q) Analyze the auth.log. What is the IP address used by the attacker to carry ou
 
 **cat auth.log| grep -i failed**
 
-<img width="1920" height="1080" alt="FailedPasswordBrutus" src="https://github.com/user-attachments/assets/6c225ef0-1306-4668-a5eb-76287f7eca20" />
+<img width="1920" height="1080" alt="FailedPasswordBrutus" src="https://github.com/user-attachments/assets/ea78557e-e559-4c0f-a333-65ab46e85216" />
 
 
 **Answer: 65.2.161.68**
