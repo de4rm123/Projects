@@ -142,7 +142,7 @@ Q) The malware set up an automated process to fetch and execute a remote payload
 
 Q) The payload was used to extract more sensitive files. What was the command ran to extract the more sensitive file?
 
-<img width="1920" height="1080" alt="16" src="https://github.com/user-attachments/assets/87973504-e4e8-47d4-964c-8eddfbdf475f" />
+<img width="1920" height="1080" alt="16" src="https://github.com/user-attachments/assets/377712de-dd41-492f-891e-6b0d3ee85c24" />
 
 <img width="1920" height="1080" alt="17" src="https://github.com/user-attachments/assets/c7035a14-eb2a-4b52-a60a-fee3d8d63461" />
 
