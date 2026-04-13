@@ -17,10 +17,9 @@ Q) What is the CVE ID designated to the MongoDB vulnerability explained in the s
 
 Or you can check version in **mongod.log**
 
-<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/73689202-1165-45e3-854b-5f2d99ef0dba" />
-
-
 **cat mongod.log | grep -i version**
+
+<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/73689202-1165-45e3-854b-5f2d99ef0dba" />
 
 
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/f717c118-75df-47ee-ac38-5cca04558192" />
