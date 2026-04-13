@@ -23,7 +23,7 @@ Q) What is the name of the suspicious process?
 
 Q) What is the parent process ID for the suspicious process?
 
-<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/eec3f16d-3426-4550-94ba-272fccbbd5e9" />
+<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/8b583676-173f-4a92-ad37-6a80856c8608" />
 
 
 **Answer: 2732**
@@ -31,7 +31,6 @@ Q) What is the parent process ID for the suspicious process?
 Q) What is the initial malicious executable that created this process?
 
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/8b583676-173f-4a92-ad37-6a80856c8608" />
-
 
 **Answer: or4qtckT.exe**
 
