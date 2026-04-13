@@ -5,6 +5,7 @@ You have already collected a triage acquisition from the server using UAC. Perfo
 
 Artifacts:
 
+        - .bash_history
         - auth.log
         - mongod.log
 
