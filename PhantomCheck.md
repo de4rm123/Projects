@@ -32,7 +32,7 @@ Q) Which WMI query did the attacker execute to retrieve the current temperature 
 
 Q) The attacker loaded a PowerShell script to detect virtualization. What is the function name of the script?
 
-Event ID 4105 represents the start of a PowerShell script block execution.
+Event ID 4104 records the full content of PowerShell commands and scripts as they are executed.
 
 **jq '.[] | select(.Event.System.EventID == 4104 and (.Event.EventData.ScriptBlockText | contains("function")))' WindowsPowershellOperational.json**
 
