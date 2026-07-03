@@ -30,6 +30,7 @@ Based from the results above, seems there are only 2 .zip files inside Simon Dow
 <img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/c0f44110-a33d-4b2d-b9bc-fd77ecfd96e2" />
 
 6. Then found out a .bat file inside invoice.zip. This is absolutely indicating a executable file. 
+	
 	**jq '.[] | select(.FullPath and (.FullPath | contains("invoice")))' mft.json**
    
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/5c6c845c-5f3e-4f92-a7c5-938afb3df68f" />
@@ -47,6 +48,7 @@ Based from the results above, seems there are only 2 .zip files inside Simon Dow
 <img width="1515" height="789" alt="1" src="https://github.com/user-attachments/assets/94b33645-17cd-4634-b822-fc267e5bea84" />
 
 **Conclusion:**
+
 The MFT is one of the most valuable forensic artifacts on an NTFS filesystem because it records metadata for nearly every file.
 Timelines are essential for reconstructing the sequence of events during an incident.
 Alternate Data Streams (ADS), especially Zone.Identifier, can reveal the origin of downloaded files.
