@@ -18,110 +18,63 @@ Preparations:
         - chainsaw dump 'Windows Defender-Operational.evtx' --json > windowsDefenderOperational.json
         - chainsaw dump 'Windows Firewall-Firewall.evtx' --json > windowsFirewall.json
 
-Q) When did the cyberjunkie user first successfully log into his computer? (UTC)
+Steps:
 
-**jq '.[] | select(.Event.System.EventID == 4624 and (.Event.EventData.TargetUserName | contains("CyberJunkie")))' Security.json**
+1. After sorted the timestamp from the oldest to newest, found a logon attempt with explicit credentials and cyberjunkie as it's username. This is the first attempt to logon with username **CyberJunkie**.
 
-<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/459b89b6-2a41-428b-84cc-0f19da551e62" />
+   **jq '.[] | select(.Event.System.EventID == 4648 and (.Event.EventData.TargetUserName | contains("CyberJunkie")))' Security.json**
 
 
-**Answer: 27/03/2023 14:37:09**
+<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/7f68da69-f2a6-49e3-8061-ca000f868a0c" />
 
-Q) The user tampered with firewall settings on the system. Analyze the firewall event logs to find out the Name of the firewall rule added?
 
-**jq '.[] | select(.Event.System.EventID==2004)' WindowsFirewall.json**
+2. Analyzing the Windows Firewall let us identify the name of the firewall rule added.
 
 <img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/39eb0c9e-4f0d-4ceb-95e9-30b4a8add974" />
 
-
-**Answer: Metasploit C2 Bypass**
-
-Q) Whats the direction of the firewall rule?
-
-**jq '.[] | select(.Event.System.EventID==2004)' WindowsFirewall.json**
+3. The direction of the firewall rule is also stated there.In Windows Firewall logs, Direction 2 represents Outbound traffic.
+   
+**jq '.[] | select(.Event.System.EventID==2004 and (.Event.EventData.Direction))' WindowsFirewall.json**
 
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/3887605e-50b0-4663-a6f9-241f84c210cd" />
 
-
-In Windows Firewall logs, Direction 2 represents Outbound traffic.
-
-**Answer: Outbound**
-
-Q) The user changed audit policy of the computer. Whats the Subcategory of this changed policy?
+4. To verify whether the audit policy was changed, check for Event ID 4719 in the Windows Security Event Log. This event is generated whenever the system's audit policy is modified, making it a key indicator for detecting changes to auditing configurations.
 
 **jq '.[] | select(.Event.System.EventID==4719)' Security.json**
 
 <img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/e2643ab1-6e0d-432e-83c7-9ea2750eef56" />
 
-
-**Answer: Other Object Access Events**
-
-Q) The user "cyberjunkie" created a scheduled task. Whats the name of this task?
-
+5. To determine whether a new scheduled task was created, review Event ID 4698 in the Windows Security Event Log. This event is generated whenever a scheduled task is created on the system. It records valuable information such as the task name, the account that created it and any configured actions or triggers.
+   
 **jq '.[] | select(.Event.System.EventID == 4698)' Security.json**
 
 <img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/de74e720-9bd6-4573-bc79-b4d47eb608b5" />
 
-
-**Answer: HTB-AUTOMATION**
-
-Q) Whats the full path of the file which was scheduled for the task?
+6. Within the TaskContent field, the full path to the script or executable can be found and the arguments.
 
 **jq '.[] | select(.Event.System.EventID == 4698)' Security.json**
 
 <img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/16fe6991-34b9-4738-818c-7494a3a3e4e5" />
 
-
-**Answer: C:\Users\CyberJunkie\Desktop\Automation-HTB.ps1**
-
-Q) What are the arguments of the command?
-
-<img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/d3b1c005-b438-464c-9552-832e853dafd5" />
-
-
-**Answer: -A cyberjunkie@hackthebox.eu**
-
-Q) The antivirus running on the system identified a threat and performed actions on it. Which tool was identified as malware by antivirus?
+7. Event ID 1116 indicates that Microsoft Defender Antivirus detected a threat. This event includes important details such as the threat name, severity level, detection time, the affected file or process, and the action taken by Microsoft Defender.
 
 **jq '.[] | select(.Event.System.EventID==1116)' WindowsDefenderOperational.json**
 
 <img width="1920" height="1080" alt="7" src="https://github.com/user-attachments/assets/5cdc7f3c-b981-40b5-a22f-75f8b37a8029" />
-
-
-**Answer: Sharphound**
-
-Q) Whats the full path of the malware which raised the alert?
-
-**jq '.[] | select(.Event.System.EventID==1116)' WindowsDefenderOperational.json**
-
 <img width="1920" height="1080" alt="8" src="https://github.com/user-attachments/assets/387cfe7f-9247-4c27-907c-563f6924f714" />
 
+8. Event ID 1117 records the action taken by Microsoft Defender Antivirus against a detected threat, allowing us to determine whether the threat was quarantined, removed, cleaned, or otherwise handled.
 
-**Answer: C:\Users\CyberJunkie\Downloads\SharpHound-v1.1.0.zip**
-
-Q) What action was taken by the antivirus?
-
-**jq '.[] | select(.Event.System.EventID==1117)' WindowsDefenderOperational.json**
+jq '.[] | select(.Event.System.EventID == 1117 and .Event.EventData["Action\\Name"])' WindowsDefenderOperational.json
 
 <img width="1920" height="1080" alt="9" src="https://github.com/user-attachments/assets/d66f81d2-66bd-44ca-a435-4b1c83c6bd92" />
 
-
-**Answer: Quarantine**
-
-Q) The user used Powershell to execute commands. What command was executed by the user?
-
-**jq '.[] | select(.Event.System.EventID==4104)' Powershell-Operational.json**
-
-<img width="1920" height="1080" alt="10" src="https://github.com/user-attachments/assets/9d3a63d8-9847-4841-a026-d23d8f66badf" />
-
-
-**Answer: Get-FileHash -Algorithm md5 .\Desktop\Automation-HTB.ps1**
-
-Q) We suspect the user deleted some event logs. Which Event log file was cleared?
+9. While analyzing the Security event log, I noticed there is an event log which is cleared by cyberjunkie.
 
 **jq '.[] | select(.Event.System.EventID == 1102)' Security.json**
 
 <img width="1920" height="1080" alt="11" src="https://github.com/user-attachments/assets/3de56d30-1e8c-484f-a318-07d7c8604c88" />
 
+Conclusion:
 
-**Answer: Microsoft-Windows-Windows Firewall With Advanced Security/Firewall**
+The evidence indicates that the attacker attempted to establish persistence by creating a scheduled task, modified the Windows Firewall to permit unauthorized network communication, executed a PowerShell script to automate malicious actions, and later cleared the firewall event log to hinder forensic analysis.
