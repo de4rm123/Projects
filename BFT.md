@@ -8,8 +8,8 @@ Artifacts:
 
 STEPS:
 1. In this task we're given a MFT file which we can analyze using MFT Explorer. But I prefer to analyze it by converting the raw MFT file to a .json format.
-2. Then analyze the JSON file using **jq**.
-3. To convert the raw MFT file to .csv format, you can either use **chainsaw**. 
+2. Then analyze the JSON file using **jq** tool.
+3. To convert the raw MFT file to .json format, you can either use **chainsaw**. 
 	
 	**chainsaw dump \$MFT --json > mft.json**
 
